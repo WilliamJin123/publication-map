@@ -1,11 +1,4 @@
-javascript:void(0)
-javascript:void(0)
-javascript:void(0)
-/citations?start=00&view_op=search_authors&hl=en&mauthors=label:energy_mechatronics
-/citations?start=00&view_op=search_authors&hl=en&mauthors=label:automotive
-/citations?start=00&view_op=search_authors&hl=en&mauthors=label:hvac
-/citations?start=00&view_op=search_authors&hl=en&mauthors=label:fuel_cell
-/citations?start=00&view_op=search_authors&hl=en&mauthors=label:buildings
+
 https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=16913045085278989081
 https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=2977557236158404240
 https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=4334529180238562993

@@ -73,7 +73,7 @@ def extractListfromFile(file='files/scholar.txt'):
         return filtered_lines
 
 
-test_url = "https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=2977557236158404240"
+
 
 def getCitationUrls(paper):
     
@@ -105,6 +105,8 @@ def getAllCitationUrls(papers):
     for paper in papers:
         getCitationUrls(paper)
 
+test_url = "https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=8876951269706202931"
+
 getCitationUrls(test_url)
 
-journalList = extractListfromFile()  
+# journalList = extractListfromFile() 
