@@ -107,9 +107,10 @@ def getCitationUrls(paper):
     soup = BeautifulSoup(response.text, 'html.parser')
     results = soup.find_all('div', class_='gs_ab_mdw')
     results = results[1].get_text()
-    print(results)
+    
     results = re.search(r"about\s+(\d[\d,\.]*)\s+result", results, re.IGNORECASE).group(1)
     results_length = int(results)
+    print(results_length)
     index = '00'
     file = open("files/citations.txt", "w", encoding="utf-8")
 
@@ -134,8 +135,7 @@ def getAllCitationUrls(papers):
 test_url = "https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=8876951269706202931"
 
 
-
-# getCitationUrls(test_url)
+getCitationUrls(test_url)
 
 # journalList = extractListfromFile() 
 

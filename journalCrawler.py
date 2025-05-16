@@ -9,7 +9,7 @@ journal_url = "https://link.springer.com/article/10.1007/s10973-022-11896-2"
 
 def getJournalAuthors(journal):
     affMap = {}
-    path = "../chromedriver-win64"
+    
    
     driver = webdriver.Chrome()
     driver.implicitly_wait(5)
