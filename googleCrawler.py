@@ -84,6 +84,7 @@ def getScholarData(urls):
         link_tags = soup.find_all('a', class_=['gsc_a_ac', 'gs_ibl'])
         for link in link_tags:
             file.write(f"{link['href'].replace('?', '?start=00&')}\n") 
+            
     file.close()
 
 # getScholarData(prof_urls)
