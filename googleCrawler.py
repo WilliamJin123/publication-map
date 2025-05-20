@@ -94,7 +94,7 @@ def extractListfromFile(file='files/scholar.txt'):
         lines = f.readlines()
         filtered_lines = list(
             map(lambda line: line.rstrip('\n'),
-            filter(lambda line: line.startswith('https://scholar.google.com/scholar?'), lines)))
+            filter(lambda line: line.startswith('https://scholar.google.com/scholar?') or line.startswith("ignore:"), lines)))
         return filtered_lines
 
 
