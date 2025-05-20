@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException  
+from selenium.common.exceptions import NoSuchElementException   
 from fake_useragent import UserAgent
 from googleCrawler import make_request, extractListfromFile
 from bs4 import BeautifulSoup
@@ -85,9 +85,12 @@ def getJournalsOnPage(url):
                 break
             next_button.click()
             time.sleep(1)
-        except NoSuchElementException:
+        except Exception as e:
+            print(e)
             print('using link')
-            next_link = driver.find_elements(By.XPATH, '//*[@id="gs_n"]/center/table/tbody/tr/td/a')[-1]
+            
+            next_pages = driver.find_elements(By.XPATH, '//*[@id="gs_n"]/center/table/tbody/tr/td/a')
+            next_link = next_pages[-1]
             try:
                 span = next_link.find_element(By.CLASS_NAME, 'gs_ico.gs_ico_nav_next')
                 next_link.click()
@@ -95,6 +98,7 @@ def getJournalsOnPage(url):
             except NoSuchElementException:
                 print('No more pages!')
                 break
+    driver.close()
 
 def appendToLine(index, filepath="files/scholar.txt", text="ignore:"):
     with open(filepath, 'r+', encoding='utf-8') as file:
