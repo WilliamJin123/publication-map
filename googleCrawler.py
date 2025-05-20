@@ -58,7 +58,7 @@ def loadProxies(filepath="files/proxies_list.txt"):
 proxy_list = loadProxies()
 
 def make_request(url):
-    headers = headers = random.choice(alternate_headers)
+    headers = random.choice(alternate_headers)
     # proxy = random.choice(proxy_list)
     # proxies = {
     #     "http": f"http://{proxy}",  # Or "http://username:password@ip:port"
@@ -131,12 +131,13 @@ def getAllCitationUrls(papers):
         getCitationUrls(paper)
 
 
+if __name__ == "__main__":
+
+    
+    test_url = "https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=16913045085278989081"
 
 
-test_url = "https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=8876951269706202931"
+    # getCitationUrls(test_url)
 
-
-getCitationUrls(test_url)
-
-# journalList = extractListfromFile() 
+    # journalList = extractListfromFile() 
 
