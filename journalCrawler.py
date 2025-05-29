@@ -1,18 +1,35 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from googleCrawler import make_request
-
-journal_url = "https://link.springer.com/article/10.1007/s10973-022-11896-2"
-
-
+import os, time, random
+from urllib.parse import urlparse
 
 
+def getUniqueJournalUrls(dir="./files/citations"):
+    uniqueUrls = {}
+    for filename in os.listdir(dir):
+        file_path = os.path.join(dir, filename)
+        if os.path.isfile(file_path):
+            file = open(file_path, 'r', encoding='utf-8')
+            lines = file.readlines()
+            for line in lines:
+                parsed = urlparse(line)
+                base_url = f"{parsed.scheme}://{parsed.netloc}/"
+                if not uniqueUrls.get(base_url):
+                    uniqueUrls[base_url] = 1 
+                else:
+                    uniqueUrls[base_url] += 1
+            file.close()
+    return uniqueUrls
+
+         
 def getJournalAuthors(journal):
     affMap = {}
     
    
     driver = webdriver.Chrome()
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
+    # time.sleep(random.randint(3,5))
     driver.get(journal) 
     if journal.startswith("https://www.sciencedirect.com/science/article/"):
         def scienceDirectFetch():
@@ -42,9 +59,36 @@ def getJournalAuthors(journal):
                         author_info.append(aff.text)
                 affMap[author_info[0]] = author_info[1:]    
         springerFetch()  
+    elif journal.startswith("https://www.mdpi.com/"):
+        def mdpiFetch():
+            locations = {}
+            authors_span = driver.find_elements(By.XPATH, '//*[@id="abstract"]/div[2]/article/div/div[2]/span')
+            for author_span in authors_span:
+                name = author_span.find_element(By.XPATH, './/*[@class="profile-card-drop"]')
+                number = author_span.find_element(By.XPATH, './/sup')
+                affMap[name.text] = int(number.text.replace(',', '').replace('*', '')) 
+            affiliations = driver.find_elements(By.XPATH, '//*[@id="abstract"]/div[2]/article/div/div[5]/div/div')
+            for aff in affiliations:
+                print(f"onto the next item!")
+                num_span = aff.find_element(By.XPATH, './div[@class="affiliation-item"]/sup')
+                if not num_span.text.isnumeric():
+                    continue
+                num = int(num_span.text)
+                location = aff.find_element(By.XPATH, './div[2]').text
+                print("location" + location)
+                locations[num] = location
+                
+            for author in affMap.keys():
+                location_num = affMap[author]
+                affMap[author] = locations[location_num]
+        mdpiFetch()
+    elif journal.startswith("https://ieeexplore.ieee.org/"):
+        def ieeeFetch():
+            return
+        ieeeFetch()
     else:
+        print(f"{journal} is not part of websites supported yet")
         return {}
-    
     return(affMap)
 
 def getCountriesFromText(text):
@@ -55,8 +99,33 @@ def getCountriesFromText(text):
             output.append(country)
     return output
 
-affMap = getJournalAuthors(journal_url)
-for key in affMap.keys():
-    print(f"Author: {key}")
-    print(f"Affiliations: {affMap[key]}")
-   
+
+journal_url = "https://ieeexplore.ieee.org/abstract/document/7457675" #current test
+
+
+if __name__ == "__main__":
+
+    affMap = getJournalAuthors(journal_url)
+    for key in affMap.keys():
+        print(f"Author: {key}")
+        print(f"Affiliations: {affMap[key]}")
+    
+    # unique = getUniqueJournalUrls()
+    # sorted_unique = dict(sorted(unique.items(), key=lambda item: item[1], reverse=True))
+    # file = open("files/journalCounts.txt", "w", encoding="utf-8")
+    # for key in sorted_unique.keys():
+    #     file.write(f"{key} {sorted_unique[key]}\n")
+    # file.close()
+    
+    
+    # https://www.sciencedirect.com/ 1311 done
+    # https://ieeexplore.ieee.org/ 291
+    # https://www.mdpi.com/ 205 done
+    # https://link.springer.com/ 146 done
+    # https://search.proquest.com/ 134
+    # https://asmedigitalcollection.asme.org/ 115
+    # https://www.sae.org/ 111
+    # https://journals.sagepub.com/ 95
+    # https://www.researchgate.net/ 71
+    # https://www.tandfonline.com/ 42
+    

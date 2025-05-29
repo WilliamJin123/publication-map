@@ -48,9 +48,12 @@ def generateCitationUrlsFinal(file='files/scholar.txt'):
         f.close()
     
 def captchaCheck(driver):
+    printOnce = True
     while(True):
         if "recaptcha" in driver.page_source.lower() or "captcha" in driver.page_source.lower():
-            print("\nCaptcha detected!")
+            if printOnce:
+                print("Captcha detected")
+                printOnce = False
             driver.implicitly_wait(10)
             time.sleep(3)
         else:
