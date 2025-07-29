@@ -1,7 +1,9 @@
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
-from googleCrawler import make_request
-import os, time, random
+from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException, StaleElementReferenceException
+from googleUrlGetter import make_request
+import os, time, random, csv
 from urllib.parse import urlparse
 
 
@@ -20,75 +22,127 @@ def getUniqueJournalUrls(dir="./files/citations"):
                 else:
                     uniqueUrls[base_url] += 1
             file.close()
-    return uniqueUrls
+    sorted_unique = dict(sorted(uniqueUrls.items(), key=lambda item: item[1], reverse=True))
+    return sorted_unique
+
+def writeUniqueJournalUrlsToFile(sorted_unique, filepath="files/journalCounts.txt"):
+    file = open(filepath, "w", encoding="utf-8")
+    for key in sorted_unique.keys():
+        file.write(f"{key} {sorted_unique[key]}\n")
+    file.close()
+    
+    
 
          
 def getJournalAuthors(journal):
     affMap = {}
-    
-   
-    driver = webdriver.Chrome()
-    driver.implicitly_wait(10)
-    # time.sleep(random.randint(3,5))
-    driver.get(journal) 
     if journal.startswith("https://www.sciencedirect.com/science/article/"):
         def scienceDirectFetch():
-            authors = driver.find_elements(By.CLASS_NAME, "button-link.button-link-secondary.button-link-underline")
-            for author in authors:
+            driver = webdriver.Chrome()
+            driver.implicitly_wait(3)
+            driver.get(journal)
+            author = driver.find_element(By.CLASS_NAME, "button-link.button-link-secondary.button-link-underline")
+            while author:
                 author_info = []
-                author.click()
-                fname = author.find_element(By.CLASS_NAME, 'given-name').text
-                lname = author.find_element(By.CLASS_NAME, 'text.surname').text
-                affiliations = driver.find_elements(By.XPATH, '//*[@id="side-panel-author"]/div')
-                for aff in affiliations:
-                    if(aff.text != ""):
-                        author_info.append(aff.text) 
-                affMap[fname+" "+lname] = author_info[1:]  
+                try:
+                    author.click()
+                    fname = author.find_element(By.CLASS_NAME, 'given-name').text
+                    lname = author.find_element(By.CLASS_NAME, 'text.surname').text
+                    affiliations = driver.find_elements(By.XPATH, '//*[@id="side-panel-author"]/div')
+                    for aff in affiliations:
+                        if(aff.text != ""):
+                            author_info.append(aff.text) 
+                    affMap[fname+" "+lname] = author_info[1]  
+                    author = author.find_element(By.XPATH, "following::button[contains(@class, 'button-link') and contains(@class, 'button-link-secondary') and contains(@class, 'button-link-underline')][1]")
+                except NoSuchElementException:
+                    print('checked all authors')
+                    break
+                except ElementClickInterceptedException:
+                    close_popup = driver.find_element(By.CLASS_NAME, '_pendo-close-guide')
+                    close_popup.click()
+                except StaleElementReferenceException:
+                    author = driver.find_element(By.CLASS_NAME, "button-link.button-link-secondary.button-link-underline")
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                finally:    
+                    driver.close()
         scienceDirectFetch()
-    elif journal.startswith("https://link.springer.com/article/"):
+    elif journal.startswith("https://link.springer.com/article/"):  
         def springerFetch(): 
-            driver.find_element(By.XPATH, '/html/body/dialog/div/div/div[3]/button').click()
-            authors = driver.find_elements(By.XPATH, '//*[@class="c-article-header"]/header/ul/li/a')
-            for author in authors: 
-                author_info = []
-                author.click()
-                author_info.append(author.text)
-                affs = driver.find_elements(By.XPATH, '//*[@class="app-researcher-popup__author-list"]/li')
-                for aff in affs:
-                    if(aff.text != ""):
-                        author_info.append(aff.text)
-                affMap[author_info[0]] = author_info[1:]    
+            try:
+                driver = webdriver.Chrome()
+                driver.implicitly_wait(3)
+                driver.get(journal)
+                driver.find_element(By.XPATH, '/html/body/dialog/div/div/div[3]/button').click()
+                authors = driver.find_elements(By.XPATH, '//*[@class="c-article-header"]/header/ul/li/a')
+                for author in authors: 
+                    author_info = []
+                    author.click()
+                    author_info.append(author.text)
+                    affs = driver.find_elements(By.XPATH, '//*[@class="app-researcher-popup__author-list"]/li')
+                    for aff in affs:
+                        if(aff.text != ""):
+                            author_info.append(aff.text)
+                    affMap[author_info[0]] = author_info[1:]    
+            finally:    
+                    driver.close()
         springerFetch()  
     elif journal.startswith("https://www.mdpi.com/"):
         def mdpiFetch():
-            locations = {}
-            authors_span = driver.find_elements(By.XPATH, '//*[@id="abstract"]/div[2]/article/div/div[2]/span')
-            for author_span in authors_span:
-                name = author_span.find_element(By.XPATH, './/*[@class="profile-card-drop"]')
-                number = author_span.find_element(By.XPATH, './/sup')
-                affMap[name.text] = int(number.text.replace(',', '').replace('*', '')) 
-            affiliations = driver.find_elements(By.XPATH, '//*[@id="abstract"]/div[2]/article/div/div[5]/div/div')
-            for aff in affiliations:
-                print(f"onto the next item!")
-                num_span = aff.find_element(By.XPATH, './div[@class="affiliation-item"]/sup')
-                if not num_span.text.isnumeric():
-                    continue
-                num = int(num_span.text)
-                location = aff.find_element(By.XPATH, './div[2]').text
-                print("location" + location)
-                locations[num] = location
-                
-            for author in affMap.keys():
-                location_num = affMap[author]
-                affMap[author] = locations[location_num]
+            try:
+                driver = webdriver.Chrome()
+                driver.implicitly_wait(3)
+                driver.get(journal)
+                locations = {}
+                authors_span = driver.find_elements(By.XPATH, '//*[@id="abstract"]/div[2]/article/div/div[2]/span')
+                affiliations = driver.find_elements(By.XPATH, '//*[@id="abstract"]/div[2]/article/div/div[5]/div/div')
+                if len(affiliations) > 2:
+                    for author_span in authors_span:
+                        name = author_span.find_element(By.XPATH, './/*[@class="profile-card-drop"]')
+                        number_elem = author_span.find_element(By.XPATH, './/sup')
+                        number = number_elem.text.replace(',', '').replace('*', '').replace('†', '').replace('‡', '')
+                        for num in number:
+                            affMap[name.text] = int(num)
+                    for aff in affiliations:
+                        num_span = aff.find_element(By.XPATH, './div[@class="affiliation-item"]/sup')
+                        if not num_span.text.isnumeric():
+                            continue
+                        num = int(num_span.text)
+                        location = aff.find_element(By.XPATH, './div[2]').text
+                        locations[num] = location
+                    for author in affMap.keys():
+                        location_num = affMap[author]
+                        affMap[author] = locations[location_num]
+                else:
+                    location = affiliations[0].find_element(By.XPATH, './div[contains(@class, "affiliation-name")]').text
+                    for author_span in authors_span:
+                        name = author_span.find_element(By.XPATH, './/*[@class="profile-card-drop"]')
+                        affMap[name.text] = location  
+            finally:    
+                driver.close()
         mdpiFetch()
     elif journal.startswith("https://ieeexplore.ieee.org/"):
         def ieeeFetch():
-            return
+            try:
+                driver = webdriver.Chrome()
+                driver.implicitly_wait(3)
+                driver.get(journal)
+                authors = driver.find_elements(By.XPATH, '//*[contains(@class, "authors-info-container") and contains(@class, "authors-minimized")]/span')
+                for author in authors:
+                    try:
+                        name = author.find_element(By.XPATH, './span[1]/a/span').text   
+                        tooltip = author.find_element(By.XPATH, './span')
+                        hov = ActionChains(driver).move_to_element(tooltip)
+                        hov.perform()
+                        location = tooltip.find_element(By.XPATH, './ngb-tooltip-window/div[2]/span').text
+                        affMap[name] = location
+                    except NoSuchElementException:
+                        continue
+            finally:    
+                driver.close()
         ieeeFetch()
     else:
         print(f"{journal} is not part of websites supported yet")
-        return {}
     return(affMap)
 
 def getCountriesFromText(text):
@@ -99,33 +153,81 @@ def getCountriesFromText(text):
             output.append(country)
     return output
 
+def getExistingCsvEntries(filepath="files/author_data.csv"):
+    existing_entries = {}
+    csv_file = open(filepath, "r", encoding='utf-8')
+    lines = csv_file.readlines()
+    csv_file.close()
+    for line in lines:
+        url = line.split(',')[0]
+        existing_entries[url] = True
+    return existing_entries
 
-journal_url = "https://ieeexplore.ieee.org/abstract/document/7457675" #current test
+def getAuthorsAndWriteToCsv(existing_entries={}, dir='files/citations', csv_filepath="files/author_data.csv", csv_headers = ["Journal Url", "Corresponding Journal Id", "Authors", "Locations"]):
+    dir_list = os.listdir(dir)
+    for i, filename in enumerate(dir_list):
+        print(f"looking through file {i}/{len(dir_list)}, {filename}")
+        filepath = os.path.join(dir, filename)
+        if os.path.isfile(filepath):
+            file = open(filepath, 'r', encoding='utf-8') 
+            
+            lines = file.readlines()
+            file.close()
+            for i, url in enumerate(lines):
+                url = url.strip('\n')
+                if url.startswith("ignore:") or url in existing_entries:
+                    print(f"skipping {url}")
+                    continue
+                affiliations = None
+                for attempt in range(5):
+                    try:
+                        affiliations = getJournalAuthors(url)
+                        break
+                    except Exception as e:
+                        print(f"Attempt {attempt + 1} failed for {url}: {e}")
+                else:
+                    print(f"{url} failed after 5 attempts, skipped")
+                    continue
+                if not affiliations:
+                    print(f"{url} implementation not finished, skipped")
+                    continue
+                print(f"searching {url} for authors")
+                authorString = ""
+                locationsString=""
+                for author in affiliations.keys():
+                    authorString+=f"&{author}"
+                    locationsString+=f"&{affiliations[author]}"
+                authorString = authorString[1:]
+                locationsString = locationsString[1:]
+                csv_row = {csv_headers[0]:url, csv_headers[1]:filename.replace('.txt', ''), csv_headers[2]:authorString, csv_headers[3]:locationsString }
+                #what article cited this, which of dr. mahdi's articles was cited, authors & separated, locations & separated
+                csv_file = open(csv_filepath, "a", newline='', encoding='utf-8')
+                writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
+                writer.writerow(csv_row)
+                lines[i] = "ignore:" + lines[i]
+                file = open(filepath, 'w', encoding='utf-8') 
+                file.writelines(lines)
+                file.close()
+                csv_file.close()
+    
+journal_url = "https://www.sciencedirect.com/science/article/pii/S0378778824009460" #current test
 
 
 if __name__ == "__main__":
 
-    affMap = getJournalAuthors(journal_url)
-    for key in affMap.keys():
-        print(f"Author: {key}")
-        print(f"Affiliations: {affMap[key]}")
+    # affMap = getJournalAuthors(journal_url)
+    # for key in affMap.keys():
+    #     print(f"Author: {key}")
+    #     print(f"Affiliations: {affMap[key]}")
+    
     
     # unique = getUniqueJournalUrls()
-    # sorted_unique = dict(sorted(unique.items(), key=lambda item: item[1], reverse=True))
-    # file = open("files/journalCounts.txt", "w", encoding="utf-8")
-    # for key in sorted_unique.keys():
-    #     file.write(f"{key} {sorted_unique[key]}\n")
-    # file.close()
+    # writeUniqueJournalUrlsToFile(unique)
+    # input('continue?')
     
     
-    # https://www.sciencedirect.com/ 1311 done
-    # https://ieeexplore.ieee.org/ 291
-    # https://www.mdpi.com/ 205 done
-    # https://link.springer.com/ 146 done
-    # https://search.proquest.com/ 134
-    # https://asmedigitalcollection.asme.org/ 115
-    # https://www.sae.org/ 111
-    # https://journals.sagepub.com/ 95
-    # https://www.researchgate.net/ 71
-    # https://www.tandfonline.com/ 42
+    existing_entries = getExistingCsvEntries()
+    getAuthorsAndWriteToCsv(existing_entries)
     
+                    
+        

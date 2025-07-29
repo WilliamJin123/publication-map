@@ -50,21 +50,12 @@ alternate_headers = [
     },
 ]
 
-def loadProxies(filepath="files/proxies_list.txt"):
-    with open(filepath, 'r') as file:
-        proxies = file.readlines()
-    return [proxy.strip() for proxy in proxies]
 
-proxy_list = loadProxies()
+
+
 
 def make_request(url):
     headers = random.choice(alternate_headers)
-    # proxy = random.choice(proxy_list)
-    # proxies = {
-    #     "http": f"http://{proxy}",  # Or "http://username:password@ip:port"
-    #     "https": f"https://{proxy}", # Or "https://username:password@ip:port"
-    # }
-    # print(proxies)
     time.sleep(random.uniform(0.6,1.5))
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -89,7 +80,7 @@ def getScholarData(urls):
 
 # getScholarData(prof_urls)
 
-def extractListfromFile(file='files/scholar.txt'):
+def extractListfromFile(file='files/google-scholar-pages.txt'):
     with open(file, 'r', encoding='utf-8') as f:
         lines = f.readlines()
         filtered_lines = list(

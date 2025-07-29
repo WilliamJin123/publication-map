@@ -1,0 +1,17 @@
+https://www.sciencedirect.com/science/article/pii/S0306261917307936
+ignore:https://ieeexplore.ieee.org/abstract/document/8330050/
+https://www.sciencedirect.com/science/article/pii/S2210670721001220
+https://ieeexplore.ieee.org/abstract/document/10057983/
+https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/iet-rpg.2020.0049
+ignore:https://www.mdpi.com/1996-1073/15/17/6182
+https://onlinelibrary.wiley.com/doi/abs/10.1002/oca.2767
+https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/esi2.12095
+https://onlinelibrary.wiley.com/doi/abs/10.1002/oca.2790
+https://ieeexplore.ieee.org/abstract/document/7962930/
+https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=19961073&AN=182443685&h=kBneELeer3Y5hl9EsEsGwX2uIxjkMNg7qDYNvaesSYtDAHizwWMMBJck%2BF6oudKebRINJNbqeyHUb9B3KoVFNQ%3D%3D&crl=c
+https://www.researchgate.net/profile/Xiaolong-Jin/publication/330662916_Modeling_and_Optimization_of_Active_Distribution_Network_With_Integrated_Smart_Buildings/links/5d3f3c3a92851cd04691dc3e/Modeling-and-Optimization-of-Active-Distribution-Network-With-Integrated-Smart-Buildings.pdf
+https://www.mdpi.com/1996-1073/14/11/3024
+https://ieeexplore.ieee.org/abstract/document/10718975/
+https://www.researchgate.net/profile/Nadeem-Javaid/publication/358200947_Impact_of_High_Solar_Photovoltaic_Penetration_on_Power_System_Operations/links/63a3e6b5c3c9bb1647fc67f2/Impact-of-High-Solar-Photovoltaic-Penetration-on-Power-System-Operations.pdf
+https://search.proquest.com/openview/2c909309b44bd8968c04f7af22095d32/1?pq-origsite=gscholar&cbl=2026366&diss=y
+https://ieeexplore.ieee.org/abstract/document/7525273/

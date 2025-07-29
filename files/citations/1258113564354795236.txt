@@ -1,0 +1,17 @@
+https://www.sciencedirect.com/science/article/pii/S019689041930915X
+https://www.mdpi.com/1996-1073/14/3/730
+https://www.sciencedirect.com/science/article/pii/S0142061521005998
+ignore:https://www.sciencedirect.com/science/article/pii/S0166361525000156
+ignore:https://ieeexplore.ieee.org/abstract/document/10272270/
+https://www.mdpi.com/1996-1073/15/10/3521
+https://www.mdpi.com/1996-1073/13/24/6532
+ignore:https://www.sciencedirect.com/science/article/pii/S2405896319305270
+https://ieeexplore.ieee.org/abstract/document/8444186/
+https://asmedigitalcollection.asme.org/DSCC/proceedings-abstract/DSCC2018/V002T28A004/271017
+https://epjournal.csee.org.cn/zgdjgcxb/en/article/doi/10.13334/j.0258-8013.pcsee.220192
+https://asmedigitalcollection.asme.org/sustainablebuildings/article/4/3/031001/1164186
+https://ieeexplore.ieee.org/abstract/document/8815205/
+https://pdfs.semanticscholar.org/b1dc/8fa5e7dc187ed00ee87d8c635bcbeedccfde.pdf
+ignore:https://ieeexplore.ieee.org/abstract/document/8973628/
+https://fse.studenttheses.ub.rug.nl/id/eprint/19378
+https://research.rug.nl/en/publications/distributed-building-energy-storage-units-for-frequency-control-s

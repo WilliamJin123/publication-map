@@ -1,0 +1,17 @@
+https://www.sciencedirect.com/science/article/pii/S2666546823000617
+https://www.sciencedirect.com/science/article/pii/S0360319923012156
+https://journals.sagepub.com/doi/abs/10.1177/14680874241229514
+https://www.sciencedirect.com/science/article/pii/S0016236122030113
+https://www.sciencedirect.com/science/article/pii/S0952197623012988
+https://journals.sagepub.com/doi/abs/10.1177/14680874241272898
+https://ieeexplore.ieee.org/abstract/document/9858604/
+https://journals.sagepub.com/doi/abs/10.1177/14680874231188354
+ignore:https://link.springer.com/article/10.1007/s12239-024-00068-w
+https://onlinelibrary.wiley.com/doi/abs/10.1002/htj.22568
+https://www.tandfonline.com/doi/abs/10.1080/20464177.2024.2432777
+https://www.mdpi.com/2075-1702/11/10/924
+ignore:https://www.mdpi.com/1996-1073/16/1/3
+https://search.proquest.com/openview/6b61f50f1dac073c3bd5eb541e53c62c/1?pq-origsite=gscholar&cbl=18750&diss=y
+https://www.researchsquare.com/article/rs-6307924/latest
+https://joaiar.org/articles/AIR-1013.pdf
+https://www.researchgate.net/profile/Somasundaram-Balasubramaniam/publication/382889933_Mitigation_Strategies_for_Challenges_in_Adoption_of_Data_Science_in_Industry_40/links/66b2154c8f7e1236bc3e59c9/Mitigation-Strategies-for-Challenges-in-Adoption-of-Data-Science-in-Industry-40.pdf

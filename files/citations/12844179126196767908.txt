@@ -1,0 +1,17 @@
+ignore:https://www.sciencedirect.com/science/article/pii/S1364032120303701
+ignore:https://www.sciencedirect.com/science/article/pii/S0360544219313210
+ignore:https://www.sciencedirect.com/science/article/pii/S0306261916302604
+ignore:https://ieeexplore.ieee.org/abstract/document/9109302/
+https://www.sciencedirect.com/science/article/pii/S0967066116302489
+https://sciendo.com/pdf/10.1515/amcs-2017-0005
+https://asmedigitalcollection.asme.org/dynamicsystems/article-abstract/137/5/051015/370491
+ignore:https://link.springer.com/article/10.1007/s13042-015-0467-x
+ignore:https://www.sciencedirect.com/science/article/pii/S0925231215012904
+https://onlinelibrary.wiley.com/doi/abs/10.1002/asjc.1305
+https://www.sciencedirect.com/science/article/pii/S0952197615002468
+https://search.proquest.com/openview/b7cccc21b92ca0b057c13bd7fc7c24de/1?pq-origsite=gscholar&cbl=18750&diss=y
+https://journals.sagepub.com/doi/abs/10.1177/0959651815596287
+https://search.proquest.com/openview/8caa578010bca6d1ff81d4551b72e9df/1?pq-origsite=gscholar&cbl=18750
+https://uwspace.uwaterloo.ca/bitstream/handle/10012/9673/Mozaffari_Ahmad.pdf?sequence=3
+ignore:https://link.springer.com/article/10.1007/s12239-017-0019-3
+https://www.worldscientific.com/doi/abs/10.1142/S1469026815500248

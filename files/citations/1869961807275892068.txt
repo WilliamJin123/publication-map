@@ -1,0 +1,15 @@
+ignore:https://www.mdpi.com/1996-1073/15/19/7231
+ignore:https://www.mdpi.com/1996-1073/14/18/5869
+ignore:https://link.springer.com/article/10.1007/s12273-024-1125-6
+https://scijournals.onlinelibrary.wiley.com/doi/abs/10.1002/ese3.1840
+ignore:https://www.sciencedirect.com/science/article/pii/S0378778824007850
+ignore:https://www.mdpi.com/1996-1073/17/12/2819
+https://bibliotekanauki.pl/articles/1955196.pdf
+https://books.google.com/books?hl=en&lr=&id=UWQ0EQAAQBAJ&oi=fnd&pg=PA73&ots=rrNOpT5wMa&sig=28mfYNEHfe4bdGA7ghKrqiIWE-M
+https://www.tandfonline.com/doi/abs/10.1080/23744731.2024.2446001
+https://onlinelibrary.wiley.com/doi/abs/10.1002/oca.2862
+https://www.informatica.si/index.php/informatica/article/view/5586
+https://enenstrg.com/presentation/admin_pre_files/2305301617PDF3FOHJM6CL9.pdf#page=19
+ignore:https://www.sciencedirect.com/science/article/pii/S2214785322040214
+https://saarj.com/wp-content/uploads/special-issue/2022/ACADEMICIA-NOVEMBER-2022-SPECIAL-ISSUE.pdf#page=100
+https://www.sba.org.br/cba2024/papers/paper_7181.pdf

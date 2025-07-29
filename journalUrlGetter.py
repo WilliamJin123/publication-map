@@ -3,9 +3,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException   
 from fake_useragent import UserAgent
-from googleCrawler import make_request, extractListfromFile
+from googleUrlGetter import make_request, extractListfromFile
 from bs4 import BeautifulSoup
-import time, re
+import time, re, random
 
 options = Options()
 ua = UserAgent()
@@ -14,38 +14,11 @@ print(user_agent)
 options.add_argument(f'--user-agent={user_agent}')
 
 test_url = "https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=8876951269706202931"
-CURREAD = 24
+
 URL_LIST = ['javascript:void(0)', 'https://scholar.google.com/', 'https://accounts.google.com/',  ]
 
 
-def generateCitationUrlsFinal(file='files/scholar.txt'):
-    f = open(file, 'r', encoding='utf-8') 
-    lines = f.readlines()
-    filtered_lines = list(
-        map(lambda line: line.rstrip('\n'),
-        filter(lambda line: line.startswith('https://scholar.google.com/scholar?'), lines)))
-    f.close()
-    
-    for i, link in enumerate(filtered_lines):
-        if i <= CURREAD:
-            continue    
-        response = make_request(link)
-        if response.status_code != 200:
-            return
-        soup = BeautifulSoup(response.text, 'html.parser')
-        results = soup.find_all('div', class_='gs_ab_mdw')
-        results = results[1].get_text()
-        
-        results = re.search(r"about\s+(\d[\d,\.]*)\s+result", results, re.IGNORECASE).group(1)
-        results_length = int(results)
-        print(results_length)
-        index = '00'
-        f = open(f'files/journal_queries/{i}-{link.split("cites=")[1]}', 'w', encoding='utf-8')
-        while(int(index) < results_length):
-            f.write(f"{link}\n")
-            link = link.replace(f'start={index}', f'start={int(index)+10}')
-            index = str(int(index)+10)
-        f.close()
+
     
 def captchaCheck(driver):
     printOnce = True
@@ -62,6 +35,7 @@ def captchaCheck(driver):
 def getJournalsOnPage(url):   
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
+    time.sleep(random.random()*2 + 3)
     driver.get(url)
     
     file = open(f"files/citations/{url.split('cites=')[1]}.txt", "w", encoding="utf-8")
@@ -103,7 +77,7 @@ def getJournalsOnPage(url):
                 break
     driver.close()
 
-def appendToLine(index, filepath="files/scholar.txt", text="ignore:"):
+def appendToLine(index, filepath="files/google-scholar-pages.txt", text="ignore:"):
     with open(filepath, 'r+', encoding='utf-8') as file:
         lines = file.readlines()
         for i in range(len(lines)):
@@ -124,7 +98,44 @@ if __name__ == "__main__":
         print(f'Processing {i+1}/{len(googleLinks)}')
         getJournalsOnPage(link)
         appendToLine(i)
+        
     
     # appendToLine(2)
     
     # getJournalsOnPage('https://scholar.google.com/scholar?start=00&oi=bibs&hl=en&cites=16913045085278989081')
+    
+    
+    
+    
+    
+    
+    
+    
+# def generateCitationUrlsFinal(file='files/scholar.txt'):
+    # f = open(file, 'r', encoding='utf-8') 
+    # lines = f.readlines()
+    # filtered_lines = list(
+    #     map(lambda line: line.rstrip('\n'),
+    #     filter(lambda line: line.startswith('https://scholar.google.com/scholar?'), lines)))
+    # f.close()
+    
+    # for i, link in enumerate(filtered_lines):
+    #     if i <= CURREAD:
+    #         continue    
+    #     response = make_request(link)
+    #     if response.status_code != 200:
+    #         return
+    #     soup = BeautifulSoup(response.text, 'html.parser')
+    #     results = soup.find_all('div', class_='gs_ab_mdw')
+    #     results = results[1].get_text()
+        
+    #     results = re.search(r"about\s+(\d[\d,\.]*)\s+result", results, re.IGNORECASE).group(1)
+    #     results_length = int(results)
+    #     print(results_length)
+    #     index = '00'
+    #     f = open(f'files/journal_queries/{i}-{link.split("cites=")[1]}', 'w', encoding='utf-8')
+    #     while(int(index) < results_length):
+    #         f.write(f"{link}\n")
+    #         link = link.replace(f'start={index}', f'start={int(index)+10}')
+    #         index = str(int(index)+10)
+    #     f.close()

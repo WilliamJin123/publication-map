@@ -1,0 +1,17 @@
+https://www.sciencedirect.com/science/article/pii/S0952197623000623
+https://www.sciencedirect.com/science/article/pii/S0925231225003844
+ignore:https://www.sciencedirect.com/science/article/pii/S0378778824000112
+https://journals.sagepub.com/doi/abs/10.1177/09596518231153445
+ignore:https://www.sciencedirect.com/science/article/pii/S0360319925020713
+https://www.sciencedirect.com/science/article/pii/S0967066123004069
+https://ieeexplore.ieee.org/abstract/document/10644830/
+https://arxiv.org/abs/2502.09826
+https://arxiv.org/abs/2504.16875
+https://ieeexplore.ieee.org/abstract/document/10644759/
+ignore:https://ieeexplore.ieee.org/abstract/document/10542607/
+https://www.sae.org/publications/technical-papers/content/2025-01-8369/
+https://research.tue.nl/files/341533687/20241106_Garg_hf.pdf
+https://era.library.ualberta.ca/items/f1560cd5-770e-4145-9ee3-cb437191c468
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4983870
+https://albertainnovates.ca/wp-content/uploads/2023/07/202102028-UofA-Public-Final-Report.pdf
+https://revistas.ulima.edu.pe/index.php/CIIS/article/view/7083
